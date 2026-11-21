@@ -1,26 +1,27 @@
-from types import SimpleNamespace
+from models import Passenger, Passenger_Status
 from simulation import activate_requests
 
 
 def test_passenger_appears_at_arrival_time():
-    passenger = SimpleNamespace(arrival_time=10, status="pending")
+    passenger = Passenger("Иван", 1, 5, 10)
 
     activate_requests([passenger], current_time=10)
 
-    assert passenger.status == "waiting"
+    assert passenger.status == Passenger_Status.WAITING
 
 
 def test_passenger_does_not_appear_early():
-    passenger = SimpleNamespace(arrival_time=10, status="pending")
-
-    activate_requests([passenger], current_time=9)
-
-    assert passenger.status == "pending"
-
-
-def test_riding_passenger_keeps_status():
-    passenger = SimpleNamespace(arrival_time=5, status="riding")
+    passenger = Passenger("Иван", 1, 5, 15)
 
     activate_requests([passenger], current_time=10)
 
-    assert passenger.status == "riding"
+    assert passenger.status == Passenger_Status.PENDING
+
+
+def test_going_passenger_keeps_status():
+    passenger = Passenger("Иван", 1, 5, 10)
+    passenger.status = Passenger_Status.GOING
+
+    activate_requests([passenger], current_time=15)
+
+    assert passenger.status == Passenger_Status.GOING

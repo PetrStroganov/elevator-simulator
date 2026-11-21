@@ -31,7 +31,7 @@ class Passenger:  # Модель пассажира
     start_floor: int
     end_floor: int
     appear_time: float
-    status: Passenger_Status = Passenger_Status.PENDING # (1)
+    status: Passenger_Status = Passenger_Status.PENDING
 
     def __post_init__(self):
         if self.start_floor == self.end_floor:
