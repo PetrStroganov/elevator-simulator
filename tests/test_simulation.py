@@ -26,6 +26,7 @@ def test_going_passenger_keeps_status():
 
     assert passenger.status == Passenger_Status.GOING
 
+
 def test_passenger_waiting_after_arrival_time():
     passenger = Passenger("Иван", 1, 5, 10)
 

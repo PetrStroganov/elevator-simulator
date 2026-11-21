@@ -32,6 +32,7 @@ class Passenger:  # Модель пассажира
     end_floor: int
     appear_time: float
     status: Passenger_Status = Passenger_Status.PENDING
+    assigned_elevator_id: int | None = None
 
     def __post_init__(self):
         if self.start_floor == self.end_floor:
@@ -56,6 +57,7 @@ class Elevator:
     direction: Direction = Direction.STAND  # (4)
     next_direction: Direction = Direction.STAND
     passengers: list = field(default_factory=list)
+    assigned_requests: list[Passenger] = field(default_factory=list)
 
     def __post_init__(self):
         if self.speed <= 0 or self.capacity <= 0:
