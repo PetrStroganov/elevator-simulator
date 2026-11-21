@@ -25,3 +25,10 @@ def test_going_passenger_keeps_status():
     activate_requests([passenger], current_time=15)
 
     assert passenger.status == Passenger_Status.GOING
+
+def test_passenger_waiting_after_arrival_time():
+    passenger = Passenger("Иван", 1, 5, 10)
+
+    activate_requests([passenger], current_time=15)
+
+    assert passenger.status == Passenger_Status.WAITING
