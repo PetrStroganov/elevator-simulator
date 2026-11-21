@@ -6,6 +6,7 @@ class Passenger_Status(Enum):  # (1)
     WAITING = 'Ждёт'
     GOING = 'Едет'
     ARRIVED = 'Приехал'
+    PENDING = 'Ждет время своего появления'
 
 
 class Elevator_type(Enum):  # (2)
@@ -30,7 +31,7 @@ class Passenger:  # Модель пассажира
     start_floor: int
     end_floor: int
     appear_time: float
-    status: Passenger_Status = Passenger_Status.WAITING  # (1)
+    status: Passenger_Status = Passenger_Status.PENDING # (1)
 
     def __post_init__(self):
         if self.start_floor == self.end_floor:
