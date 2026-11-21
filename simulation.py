@@ -44,8 +44,8 @@ def assign_requests(passengers, elevators):
 
         for elevator in elevators:
             reserved_places = (
-                len(elevator.passengers)
-                + len(elevator.assigned_requests)
+                    len(elevator.passengers)
+                    + len(elevator.assigned_requests)
             )
 
             if reserved_places >= elevator.capacity:
@@ -54,8 +54,8 @@ def assign_requests(passengers, elevators):
             route_direction = elevator.next_direction
 
             if (
-                route_direction == Direction.STAND
-                and elevator.assigned_requests
+                    route_direction == Direction.STAND
+                    and elevator.assigned_requests
             ):
                 route_direction = elevator.assigned_requests[0].direction
 
@@ -64,7 +64,7 @@ def assign_requests(passengers, elevators):
                     continue
 
                 distance_to_pickup = (
-                    passenger.start_floor - elevator.position
+                        passenger.start_floor - elevator.position
                 )
 
                 if distance_to_pickup * route_direction.value < 0:
@@ -85,3 +85,28 @@ def assign_requests(passengers, elevators):
 
         selected_elevator.assigned_requests.append(passenger)
         passenger.assigned_elevator_id = selected_elevator.id
+
+
+def process_stop(elevator):
+    """Высаживает и сажает пассажиров на текущем этаже.
+
+    Args:
+        elevator: Остановившийся лифт на этаже.
+
+    Returns:
+        None. Изменяет списки пассажиров и назначенных заявок.
+    """
+    if elevator.status != Elevator_Status.STOP:
+        return
+
+    if elevator.position != int(elevator.position):
+        return
+
+    elevator.go_out(elevator.position)
+
+    for passenger in elevator.assigned_requests.copy():
+        if passenger.assigned_elevator_id != elevator.id:
+            continue
+
+        if elevator.board(passenger):
+            elevator.assigned_requests.remove(passenger)
